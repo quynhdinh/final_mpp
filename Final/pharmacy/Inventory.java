@@ -6,50 +6,61 @@ import java.util.List;
 
 class Medication {
     private final String name;
-    public Medication(String name){
+
+    public Medication(String name) {
         this.name = name;
     }
+
     public String getName() {
         return name;
     }
 }
+
 class Painkiller extends Medication {
-    public Painkiller(String name){
+    public Painkiller(String name) {
         super(name);
     }
-    @Override
-    public String toString() {
-        return this.getName();
-    }
+
 }
 
 class Antibiotic extends Medication {
     public Antibiotic(String name) {
         super(name);
     }
-    @Override
-    public String toString() {
-        return this.getName();
-    }
 }
-public class Inventory {    
-    static List<Medication> meds = Arrays.asList(new Medication("Saline"), new Medication("Vitamin C"));
-    public static void printMedicationNames(List<? extends Medication> medication){
-        for (var m : medication) {
-            System.out.print(m + ", ");
+
+public class Inventory {
+
+    public static void printMedicationNames(List<? extends Medication> medication) {
+        for (int i = 0; i < medication.size(); i++) {
+            System.out.print(medication.get(i).getName());
+            if (i != medication.size() - 1) {
+                System.out.print(", ");
+            }
         }
         System.out.println();
     }
-    public static void addPainkiller(List<? extends Medication> p){
-        p.forEach(e -> meds.add(e));
-    }
-    public static void main(String[] args) {
-        List<Painkiller> painkillers = Arrays.asList(new Painkiller("Ipuprofen"), new Painkiller("Aspirin"));
-        List<Antibiotic> antibiotics = Arrays.asList(new Antibiotic("Amoxicillin"));
 
+    // have to use lowerbound
+    public static void addPainkiller(List<? super Painkiller> p) {
+        p.add(new Painkiller("Ibuprofen"));
+        p.add(new Painkiller("Acetaminophen"));
+        p.add(new Painkiller("Aspirin"));
+    }
+
+    public static void main(String[] args) {
+        List<Medication> meds = Arrays.asList(new Medication("Saline"), new Medication("Vitamin C"));
+        List<Painkiller> painkillers = new ArrayList<>(
+                Arrays.asList(new Painkiller("Ibuprofen"), new Painkiller("Aspirin")));
+        List<Antibiotic> antibiotics = Arrays.asList(new Antibiotic("Amoxicillin"));
+        System.out.println("Some medications: ");
         printMedicationNames(meds);
+        System.out.println("\nSome painkillers: ");
         printMedicationNames(painkillers);
+        System.out.println("\nSome antibiotics: ");
         printMedicationNames(antibiotics);
+        addPainkiller(painkillers);
+        System.out.println("\nAfter stocking some painkillers: ");
+        printMedicationNames(painkillers);
     }
 }
-
