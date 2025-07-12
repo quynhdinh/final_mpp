@@ -1,5 +1,6 @@
 package Final.pharmacy;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -39,14 +40,9 @@ public class Inventory {
         }
         System.out.println();
     }
-    public static void addPainkiller(List<? super Medication> p){
-        // do_add(meds);
+    public static void addPainkiller(List<? extends Medication> p){
+        p.forEach(e -> meds.add(e));
     }
-    // private static <T> void do_add(List<T> list){
-    //     for (T l : list) {
-    //         meds.add(l);
-    //     }
-    // }
     public static void main(String[] args) {
         List<Painkiller> painkillers = Arrays.asList(new Painkiller("Ipuprofen"), new Painkiller("Aspirin"));
         List<Antibiotic> antibiotics = Arrays.asList(new Antibiotic("Amoxicillin"));
